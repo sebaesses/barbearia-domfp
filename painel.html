@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área Administrativa | Barbearia Dom Felipe</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="Barbearia Dom Felipe">
+        <img src="imagens/log.png" alt="Logo Barbearia Dom Felipe" class="logo-img">
+      </a>
+      <div class="painel-header-actions">
+        <a href="index.html" class="btn btn-outline btn-sm">
+          <i class="ph ph-arrow-left" aria-hidden="true"></i> Voltar ao site
+        </a>
+        <button type="button" class="btn btn-danger btn-sm" id="logoutBtn" hidden>
+          <i class="ph ph-sign-out" aria-hidden="true"></i> Sair
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== LOGIN ===================== -->
+  <main class="section login-section" id="loginView">
+    <div class="container">
+      <div class="login-card">
+        <i class="ph ph-lock-key login-icon" aria-hidden="true"></i>
+        <p class="eyebrow center">Acesso restrito</p>
+        <h1 class="section-title center login-title">Área Administrativa</h1>
+        <p class="section-sub center">Entre com suas credenciais para gerenciar os agendamentos.</p>
+
+        <form id="loginForm" class="login-form" novalidate>
+          <div class="form-group">
+            <label for="loginEmail">E-mail</label>
+            <input type="email" id="loginEmail" name="email" placeholder="seuemail@dominio.com" required>
+          </div>
+          <div class="form-group">
+            <label for="loginSenha">Senha</label>
+            <input type="password" id="loginSenha" name="senha" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+          <p class="form-note" id="loginNote" role="status"></p>
+        </form>
+
+        <div class="login-hint">
+          <p><strong>Protótipo (MVP)</strong> — contas de teste (senha <code>123</code> em todas):</p>
+          <ul class="login-hint-list">
+            <li><i class="ph ph-crown" aria-hidden="true"></i> Dono — <code>dono@domfelipe.com</code></li>
+            <li><i class="ph ph-headset" aria-hidden="true"></i> Recepcionista — <code>recepcao@domfelipe.com</code></li>
+            <li><i class="ph ph-scissors" aria-hidden="true"></i> Barbeiro (Dom) — <code>dom@domfelipe.com</code></li>
+            <li><i class="ph ph-scissors" aria-hidden="true"></i> Barbeiro (Lucas) — <code>lucas@domfelipe.com</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================== DASHBOARD ===================== -->
+  <main class="section" id="dashboardView" hidden>
+    <div class="container">
+      <p class="eyebrow center">Área administrativa</p>
+      <h1 class="section-title center">Painel de Agendamentos</h1>
+      <p class="section-sub center painel-welcome" id="painelWelcome"></p>
+
+      <!-- Abas (Dono) -->
+      <div class="painel-tabs" id="painelTabs" hidden>
+        <button type="button" class="painel-tab active" data-tab="agendamentos">
+          <i class="ph ph-calendar-check" aria-hidden="true"></i> Agendamentos
+        </button>
+        <button type="button" class="painel-tab" data-tab="equipe">
+          <i class="ph ph-users-three" aria-hidden="true"></i> Gerenciar Equipe
+        </button>
+        <!-- NOVA ABA: Serviços -->
+        <button type="button" class="painel-tab" data-tab="servicos">
+          <i class="ph ph-scissors" aria-hidden="true"></i> Serviços
+        </button>
+      </div>
+
+      <!-- ===================== ABA: AGENDAMENTOS ===================== -->
+      <div id="agendamentosTab">
+        <div class="painel-toolbar">
+          <div class="form-group painel-date-group">
+            <label for="painelData">Filtrar por data (opcional)</label>
+            <input type="date" id="painelData">
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" id="painelHojeBtn">Hoje</button>
+          <button type="button" class="btn btn-outline btn-sm" id="painelTodosBtn">Todos</button>
+          <button type="button" class="btn btn-outline btn-sm" id="painelVerCanceladosBtn">
+            <i class="ph ph-eye" aria-hidden="true"></i> Ver Cancelados
+          </button>
+          <div class="form-group painel-date-group" id="painelBarbeiroFiltroWrap" hidden>
+            <label for="painelBarbeiroSelect">Barbeiro</label>
+            <select id="painelBarbeiroSelect"></select>
+          </div>
+          <span class="painel-count" id="painelCount"></span>
+        </div>
+
+        <div class="painel-lista" id="painelLista"></div>
+        <p class="painel-empty" id="painelEmpty" hidden>Nenhum agendamento confirmado para esta data.</p>
+
+        <div class="painel-block-day" id="painelBlockDayWrap" hidden>
+          <h2 class="painel-block-day-title"><i class="ph ph-calendar-x" aria-hidden="true"></i> Bloquear um dia (ausência)</h2>
+          <p class="painel-block-day-desc">
+            Cancela e remove automaticamente os agendamentos confirmados do barbeiro nesse dia, e abre uma aba do WhatsApp para cada cliente afetado com um aviso pronto.
+          </p>
+          <div class="painel-block-day-form">
+            <div class="form-group">
+              <label for="bloqueioData">Data a bloquear</label>
+              <input type="date" id="bloqueioData">
+            </div>
+            <div class="form-group" id="bloqueioBarbeiroWrap" hidden>
+              <label for="bloqueioBarbeiroSelect">Barbeiro</label>
+              <select id="bloqueioBarbeiroSelect"></select>
+            </div>
+            <button type="button" class="btn btn-danger" id="bloqueioBtn">
+              <i class="ph ph-calendar-x" aria-hidden="true"></i> Bloquear dia
+            </button>
+          </div>
+          <p class="form-note" id="bloqueioNote" role="status"></p>
+          <div class="bloqueios-list" id="bloqueiosList"></div>
+        </div>
+      </div>
+
+      <!-- ===================== ABA: GERENCIAR EQUIPE (só Dono) ===================== -->
+      <div id="equipeTab" hidden>
+        <div class="equipe-form-card">
+          <h2 class="equipe-form-title" id="equipeFormTitle">
+            <i class="ph ph-user-plus" aria-hidden="true"></i> Adicionar barbeiro
+          </h2>
+          <form id="barbeiroForm" novalidate>
+            <input type="hidden" id="barbeiroEditId" value="">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="barbeiroNomeInput">Nome</label>
+                <input type="text" id="barbeiroNomeInput" placeholder="Nome do barbeiro" required minlength="2">
+              </div>
+              <div class="form-group">
+                <label for="barbeiroEspecialidadeInput">Especialidade</label>
+                <input type="text" id="barbeiroEspecialidadeInput" placeholder="Ex: Barba e navalha">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="barbeiroFotoInput">URL da foto</label>
+              <input type="url" id="barbeiroFotoInput" placeholder="https://.../foto.jpg">
+            </div>
+            <div class="form-group">
+              <label>Tabela de preços (R$)</label>
+              <div class="precos-grid" id="precosGrid"></div>
+            </div>
+            <div class="equipe-form-actions">
+              <button type="submit" class="btn btn-primary" id="barbeiroSalvarBtn">Salvar barbeiro</button>
+              <button type="button" class="btn btn-outline" id="barbeiroCancelarBtn" hidden>Cancelar edição</button>
+            </div>
+            <p class="form-note" id="barbeiroFormNote" role="status"></p>
+          </form>
+        </div>
+        <div class="equipe-lista" id="equipeLista"></div>
+      </div>
+
+      <!-- ===================== ABA: SERVIÇOS (só Dono) ===================== -->
+      <div id="servicosTab" hidden>
+        <div class="equipe-form-card">
+          <h2 class="equipe-form-title" id="servicoFormTitle">
+            <i class="ph ph-plus-circle" aria-hidden="true"></i> Adicionar Serviço
+          </h2>
+          <form id="servicoForm" novalidate>
+            <input type="hidden" id="servicoEditId" value="">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="servicoNomeInput">Nome do Serviço</label>
+                <input type="text" id="servicoNomeInput" placeholder="Ex: Pigmentação" required minlength="2">
+              </div>
+              <div class="form-group">
+  <label for="servicoPrecoInput">Preço Base (R$)</label>
+  <input type="text" id="servicoPrecoInput" placeholder="Ex: 35,00" inputmode="decimal" required>
+</div>
+            </div>
+            <div class="form-group">
+              <label for="servicoDescInput">Descrição curta</label>
+              <input type="text" id="servicoDescInput" placeholder="Ex: Disfarce de falhas com tintura natural" required>
+            </div>
+            <div class="form-group">
+  <label>Escolha o Ícone do Serviço</label>
+  <div class="servico-icon-picker">
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-scissors" checked><span><i class="ph ph-scissors"></i> Tesoura</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-eye"><span><i class="ph ph-eye"></i> Sobrancelha</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-sparkle"><span><i class="ph ph-sparkle"></i> Reflexo</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-paint-brush"><span><i class="ph ph-paint-brush"></i> Luzes</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-snowflake"><span><i class="ph ph-snowflake"></i> Nevou</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-drop"><span><i class="ph ph-drop"></i> Hidratação</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-crown"><span><i class="ph ph-crown"></i> VIP</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-fire"><span><i class="ph ph-fire"></i> Destaque</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-magic-wand"><span><i class="ph ph-magic-wand"></i> Tratamento</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-shield-check"><span><i class="ph ph-shield-check"></i> Proteção</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-star"><span><i class="ph ph-star"></i> Especial</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-lightning"><span><i class="ph ph-lightning"></i> Rápido</span></label>    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-smiley"><span><i class="ph ph-smiley"></i> Infantil</span></label>
+    <label class="picker-chip"><input type="radio" name="icone_picker" value="ph-spray-bottle"><span><i class="ph ph-spray-bottle"></i> Produto</span></label>
+  </div>
+</div>
+            <div class="equipe-form-actions">
+              <button type="submit" class="btn btn-primary" id="servicoSalvarBtn">Salvar serviço</button>
+              <button type="button" class="btn btn-outline" id="servicoCancelarBtn" hidden>Cancelar edição</button>
+            </div>
+            <p class="form-note" id="servicoFormNote" role="status"></p>
+          </form>
+        </div>
+        <div class="equipe-lista" id="servicosLista"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="index.html" class="logo footer-logo" aria-label="Barbearia Dom Felipe">
+        <img src="imagens/log.png" alt="Logo Barbearia Dom Felipe" class="logo-img footer-logo-img">
+      </a>
+      <p>&copy; <span id="anoPainel"></span> Barbearia Dom Felipe. Painel interno — uso exclusivo da equipe.</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="barbeiros-storage.js"></script>
+  <script src="auth.js"></script>
+  <script src="agenda-storage.js"></script>
+  <script src="painel.js"></script>
+</body>
+</html>

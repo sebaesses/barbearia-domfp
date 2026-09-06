@@ -1,0 +1,1282 @@
+/* =========================================================
+   BARBEARIA DOM FELIPE — Design Tokens
+   ========================================================= */
+:root {
+  --bg: #121212;
+  --bg-elevated: #191919;
+  --bg-card: #1c1c1c;
+  --yellow: #E5A91A;
+  --yellow-dark: #C68F12;
+  --white: #FFFFFF;
+  --gray: #B3B3B3;
+  --gray-dark: #2A2A2A;
+  --black-pure: #000000;
+  --danger: #E5572C;
+
+  --font-display: 'Bebas Neue', 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+
+  --radius: 6px;
+  --container-width: 1160px;
+  --transition: 0.25s ease;
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; }
+code {
+  background-color: var(--bg-card);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* =========================================================
+   DIVISÓRIA MINIMALISTA
+   ========================================================= */
+.site-header { border-bottom: 1px solid var(--gray-dark); }
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+h1, h2, h3, .eyebrow {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.eyebrow {
+  display: block;
+  color: var(--yellow);
+  font-size: 0.95rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.text-accent { color: var(--yellow); }
+
+.center { text-align: center; }
+
+.section-sub {
+  color: var(--gray);
+  max-width: 560px;
+  margin: 0 auto 40px;
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 2px solid transparent;
+  transition: transform var(--transition), background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary {
+  background-color: var(--yellow);
+  color: var(--black-pure);
+}
+.btn-primary:hover { background-color: var(--yellow-dark); }
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--white);
+  border-color: var(--gray-dark);
+}
+.btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
+
+.btn-danger {
+  background-color: transparent;
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.btn-danger:hover { background-color: var(--danger); color: var(--white); }
+
+.btn-sm { padding: 8px 16px; font-size: 0.82rem; }
+
+.btn-block { width: 100%; text-align: center; }
+
+/* =========================================================
+   HEADER / NAV
+   ========================================================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgba(18, 18, 18, 0.92);
+  backdrop-filter: blur(6px);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-img {
+  height: 92px !important;
+  width: auto;
+  display: block;
+  margin-top: -20px;
+  transform: translateY(5px);
+  margin-left: 0px;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.8));
+}
+
+.footer-logo-img {
+  height: 73px !important;
+  margin-top: -10px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 32px;
+  margin-left: auto;
+  margin-right: 32px;
+}
+.main-nav a {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray);
+  transition: color var(--transition);
+}
+.main-nav a:hover { color: var(--yellow); }
+
+.nav-cta { flex-shrink: 0; padding: 10px 20px; }
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 8px;
+}
+.menu-toggle span {
+  width: 24px;
+  height: 2px;
+  background-color: var(--white);
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  background:
+    radial-gradient(ellipse at top right, rgba(229, 169, 26, 0.10), transparent 55%),
+    var(--bg);
+  padding: 100px 0 90px;
+}
+.hero-inner { max-width: 720px; }
+.hero-sub {
+  color: var(--gray);
+  font-size: 1.05rem;
+  max-width: 520px;
+  margin: 22px 0 34px;
+}
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* =========================================================
+   SECTIONS (genéricos)
+   ========================================================= */
+.section { padding: 90px 0; }
+.section-alt { background-color: var(--bg-elevated); }
+
+/* =========================================================
+   PLANOS MENSAIS
+   ========================================================= */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+  align-items: stretch;
+}
+
+.plan-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-card);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  transition: border-color var(--transition), transform var(--transition);
+}
+.plan-card:hover { transform: translateY(-4px); }
+
+.plan-card-featured { border-color: var(--yellow); }
+
+.plan-card h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.plan-price {
+  margin: 0 0 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.plan-price-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--yellow);
+}
+.plan-price-period {
+  color: var(--gray);
+  font-size: 0.85rem;
+}
+
+.plan-benefits {
+  flex-grow: 1;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.plan-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+.plan-benefits li i {
+  color: var(--yellow);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   NOSSOS BARBEIROS
+   ========================================================= */
+.barbers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.barber-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-card);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+  transition: border-color var(--transition), transform var(--transition);
+}
+.barber-card:hover { border-color: var(--yellow); transform: translateY(-4px); }
+
+.barber-photo {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--bg-elevated);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.barber-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.barber-photo img.img-missing { display: none; }
+.barber-photo-fallback {
+  display: none;
+  font-size: 3.5rem;
+  color: var(--gray-dark);
+}
+.barber-photo img.img-missing + .barber-photo-fallback { display: block; }
+
+.barber-card h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+.barber-card p {
+  color: var(--gray);
+  font-size: 0.88rem;
+  min-height: 40px;
+  margin: 0 0 20px;
+}
+
+@media (max-width: 860px) {
+  .barbers-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .barbers-grid { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   FORMULÁRIO DE AGENDAMENTO
+   ========================================================= */
+.booking-form {
+  max-width: 720px;
+  margin: 48px auto 0;
+  background-color: var(--bg-card);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  padding: 40px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background-color: var(--bg);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  color: var(--white);
+  font-size: 0.95rem;
+  transition: border-color var(--transition);
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--yellow);
+}
+.form-group input.input-error {
+  border-color: var(--danger);
+}
+.form-group textarea { resize: vertical; }
+
+.form-group select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--gray);
+}
+
+.field-error {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--danger);
+}
+.field-error[hidden] {
+  display: none;
+}
+
+/* ---------------------------------------------------------
+   CHIPS — barbeiro (seleção única) e serviços (seleção múltipla)
+   --------------------------------------------------------- */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.chip {
+  position: relative;
+  cursor: pointer;
+}
+.chip input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.chip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--gray-dark);
+  background-color: var(--bg);
+  color: var(--gray);
+  font-size: 0.88rem;
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+.chip span i,
+.chip span svg {
+  font-size: 1rem;
+  color: var(--yellow);
+  transition: color var(--transition);
+}
+.chip-icon-svg { width: 1em; height: 1em; }
+
+.chip:hover span { border-color: var(--yellow); color: var(--white); }
+
+.chip input:checked + span {
+  background-color: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--black-pure);
+  font-weight: 600;
+}
+.chip input:checked + span i,
+.chip input:checked + span svg { color: var(--black-pure); }
+
+.chip input:focus-visible + span {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.chip-lg span { padding: 12px 26px; font-size: 0.95rem; }
+
+.chip-time span { padding: 8px 14px; font-size: 0.85rem; }
+
+.chip input:disabled + span {
+  background-color: rgba(229, 87, 44, 0.1);
+  color: var(--danger);
+  border-color: rgba(229, 87, 44, 0.3);
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.chip input:disabled + span:hover {
+  background-color: rgba(229, 87, 44, 0.1);
+  color: var(--danger);
+  border-color: rgba(229, 87, 44, 0.3);
+}
+
+.chip-group-empty {
+  color: var(--gray);
+  font-size: 0.85rem;
+  margin: 0;
+  padding: 10px 0;
+}
+
+/* ---------------------------------------------------------
+   RESUMO DE PREÇO
+   --------------------------------------------------------- */
+.price-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: var(--bg);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+.price-summary span {
+  color: var(--gray);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.price-summary strong {
+  color: var(--yellow);
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+}
+
+.form-note {
+  margin-top: 16px;
+  min-height: 20px;
+  font-size: 0.9rem;
+  color: var(--yellow);
+  text-align: center;
+}
+
+.form-note-error { color: var(--danger); }
+
+/* =========================================================
+   MEUS AGENDAMENTOS
+   ========================================================= */
+.my-bookings-toggle-wrap {
+  max-width: 560px;
+  margin: 32px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-dark);
+  text-align: center;
+}
+
+.my-bookings-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--gray);
+  font-size: 0.88rem;
+  transition: color var(--transition);
+}
+.my-bookings-toggle span {
+  color: var(--yellow);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.my-bookings-toggle:hover { color: var(--white); }
+.my-bookings-toggle i {
+  font-size: 0.85rem;
+  transition: transform var(--transition);
+}
+.my-bookings-toggle.is-open i { transform: rotate(180deg); }
+
+.my-bookings-panel {
+  margin-top: 24px;
+}
+
+.my-bookings-lista {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.my-bookings-note {
+  margin-top: 20px;
+}
+.my-bookings-help {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--gray);
+}
+.my-bookings-help a {
+  color: var(--yellow);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.my-bookings-help a:hover { color: var(--white); }
+
+.my-booking-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  transition: border-color var(--transition);
+}
+.my-booking-card:hover { border-color: var(--yellow); }
+
+.my-booking-date {
+  display: block;
+  font-family: var(--font-display);
+  color: var(--yellow);
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+.my-booking-info h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.my-booking-info p {
+  margin: 0;
+  color: var(--gray);
+  font-size: 0.88rem;
+}
+
+/* =========================================================
+   CONTATO + MAPA
+   ========================================================= */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: stretch;
+}
+
+.contact-list { margin-top: 28px; }
+.contact-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--gray-dark);
+}
+.contact-list li strong {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--yellow);
+}
+.contact-list li span,
+.contact-list li a { color: var(--gray); }
+.contact-list li a:hover { color: var(--yellow); }
+
+.map-wrapper {
+  min-height: 320px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--gray-dark);
+  filter: grayscale(0.3) contrast(1.05);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.site-footer { background-color: var(--bg-elevated); }
+.footer-inner {
+  padding: 32px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-inner p {
+  color: var(--gray);
+  font-size: 0.85rem;
+  margin: 0;
+}
+.footer-admin-link {
+  font-size: 0.78rem;
+  color: var(--gray);
+  border-bottom: 1px solid var(--gray-dark);
+  padding-bottom: 2px;
+  transition: color var(--transition), border-color var(--transition);
+}
+.footer-admin-link:hover {
+  color: var(--yellow);
+  border-color: var(--yellow);
+}
+
+/* =========================================================
+   LOGIN (login.html)
+   ========================================================= */
+.login-section { display: flex; align-items: center; }
+
+.login-card {
+  max-width: 420px;
+  margin: 0 auto;
+  background-color: var(--bg-card);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  text-align: center;
+}
+
+.login-icon {
+  display: block;
+  font-size: 2.4rem;
+  color: var(--yellow);
+  margin-bottom: 16px;
+}
+
+.login-title { margin-bottom: 8px; }
+
+.login-form {
+  margin-top: 32px;
+  text-align: left;
+}
+
+.login-hint {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-dark);
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+.login-hint-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.login-hint-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.login-hint-list i { color: var(--yellow); font-size: 1rem; flex-shrink: 0; }
+.login-hint-list code { font-size: 0.78rem; }
+
+/* =========================================================
+   PAINEL DO BARBEIRO (painel.html)
+   ========================================================= */
+.painel-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.painel-welcome {
+  color: var(--yellow) !important;
+  font-weight: 600;
+  margin-bottom: 32px !important;
+}
+
+.painel-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--gray-dark);
+}
+.painel-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 12px 18px;
+  color: var(--gray);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color var(--transition), border-color var(--transition);
+}
+.painel-tab:hover { color: var(--white); }
+.painel-tab.active {
+  color: var(--yellow);
+  border-bottom-color: var(--yellow);
+}
+
+.painel-toolbar {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 40px 0 32px;
+  padding: 20px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+}
+.painel-date-group { margin-bottom: 0; max-width: 220px; }
+.painel-count {
+  margin-left: auto;
+  color: var(--gray);
+  font-size: 0.85rem;
+  align-self: center;
+}
+
+.painel-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.painel-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  transition: border-color var(--transition);
+}
+.painel-card:hover { border-color: var(--yellow); }
+
+.painel-card-main {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.painel-card-time {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--yellow);
+  min-width: 76px;
+}
+
+.painel-card-date {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.painel-card-info h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.painel-card-info p {
+  margin: 0;
+  color: var(--gray);
+  font-size: 0.88rem;
+}
+.painel-card-obs {
+  margin-top: 4px !important;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.status-confirmado { background-color: rgba(229, 169, 26, 0.16); color: var(--yellow); }
+.status-cancelado { background-color: rgba(229, 87, 44, 0.16); color: var(--danger); }
+
+.painel-card-cancelado {
+  opacity: 0.7;
+  border-style: dashed;
+}
+.painel-card-cancelado:hover { border-color: var(--danger); }
+
+.painel-card-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.painel-card-actions .btn i { margin-right: 4px; }
+
+.painel-empty {
+  text-align: center;
+  color: var(--gray);
+  padding: 40px 0;
+  border: 1px dashed var(--gray-dark);
+  border-radius: var(--radius);
+}
+
+.painel-block-day {
+  background-color: var(--bg-card);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.painel-block-day-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.painel-block-day-title i { color: var(--danger); }
+
+.painel-block-day-desc {
+  color: var(--gray);
+  font-size: 0.85rem;
+  max-width: 640px;
+  margin: 0 0 20px;
+}
+
+.painel-block-day-form {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.painel-block-day-form .form-group { margin-bottom: 0; max-width: 220px; }
+
+.bloqueios-list {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-dark);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bloqueio-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+.bloqueio-item i { color: var(--danger); }
+.bloqueios-empty {
+  color: var(--gray);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.equipe-form-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 32px;
+}
+
+.equipe-form-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-transform: none;
+  letter-spacing: normal;
+  margin-bottom: 20px;
+}
+.equipe-form-title i { color: var(--yellow); }
+
+.precos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+}
+.precos-grid .form-group { margin-bottom: 0; }
+
+.equipe-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.equipe-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.equipe-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  transition: border-color var(--transition);
+}
+.equipe-card:hover { border-color: var(--yellow); }
+
+.equipe-card-info h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.equipe-card-info p {
+  margin: 0;
+  color: var(--gray);
+  font-size: 0.85rem;
+}
+.equipe-card-precos { margin-top: 6px !important; }
+
+.equipe-card-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+@media (max-width: 860px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .map-wrapper { min-height: 280px; }
+}
+
+@media (max-width: 720px) {
+  .main-nav, .nav-cta { display: none; }
+  .menu-toggle { display: flex; }
+
+  .my-booking-card { flex-direction: column; align-items: flex-start; }
+  .my-booking-card .btn { width: 100%; }
+
+  .main-nav.open {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: var(--bg-elevated);
+    padding: 20px 24px;
+    gap: 18px;
+    border-top: 1px solid var(--gray-dark);
+  }
+
+  .booking-form { padding: 24px; }
+  .hero { padding: 70px 0 60px; }
+  .section { padding: 64px 0; }
+
+  .painel-count { margin-left: 0; }
+  .painel-card { flex-direction: column; align-items: flex-start; }
+  .painel-card-actions { width: 100%; }
+  .painel-block-day-form .form-group { max-width: none; width: 100%; }
+  .painel-block-day-form .btn { width: 100%; }
+
+  .painel-tabs { overflow-x: auto; }
+  .equipe-form-actions { flex-direction: column; }
+  .equipe-form-actions .btn { width: 100%; }
+  .equipe-card { flex-direction: column; align-items: flex-start; }
+  .equipe-card-actions { width: 100%; }
+}
+
+/* =========================================================
+   NOVA UI "SOFT" DE SERVIÇOS (VITRINE E AGENDAMENTO)
+   ========================================================= */
+
+/* 1. Lista Minimalista (Vitrine de Preços) */
+.services-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 800px;
+  margin: 48px auto 0;
+}
+
+.service-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-dark);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.service-menu-item:hover,
+.service-menu-item:focus-visible {
+  border-color: var(--yellow);
+  transform: translateY(-2px);
+}
+
+.service-menu-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.service-menu-icon {
+  color: var(--yellow);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-menu-info h3 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--white);
+}
+
+.service-menu-info p {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+.service-menu-price {
+  font-weight: 600;
+  color: var(--yellow);
+  font-size: 1.1rem;
+  white-space: nowrap;
+  padding-left: 16px;
+}
+
+@media (max-width: 560px) {
+  .service-menu-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .service-menu-price {
+    padding-left: 40px; /* Alinha com o texto */
+  }
+}
+
+/* 2. Scroll Horizontal Contínuo (Formulário) */
+.chip-group-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px; /* Espaço para a sombra/focus */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.chip-group-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Celular */
+}
+
+.chip-group-scroll .chip {
+  flex: 0 0 auto;
+}
+
+.chip-group-scroll .chip span {
+  white-space: nowrap;
+}
+
+/* =========================================================
+   SELETOR DE ÍCONES DO PAINEL (GRID ORGANIZADO)
+   ========================================================= */
+.servico-icon-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  max-height: 210px;
+  overflow-y: auto;
+  padding: 12px;
+  background-color: var(--bg);
+  border: 1px solid var(--gray-dark);
+  border-radius: var(--radius);
+}
+
+.servico-icon-picker .picker-chip {
+  position: relative;
+  cursor: pointer;
+}
+
+.servico-icon-picker .picker-chip input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.servico-icon-picker .picker-chip span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-dark);
+  background-color: var(--bg-card);
+  color: var(--gray);
+  font-size: 0.8rem;
+  text-align: center;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.servico-icon-picker .picker-chip span i {
+  font-size: 1rem;
+  color: var(--yellow);
+}
+
+.servico-icon-picker .picker-chip:hover span {
+  border-color: var(--yellow);
+  color: var(--white);
+}
+
+.servico-icon-picker .picker-chip input:checked + span {
+  background-color: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--black-pure);
+  font-weight: 600;
+}
+
+.servico-icon-picker .picker-chip input:checked + span i {
+  color: var(--black-pure);
+}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barbearia Dom Felipe | Estilo e Tradição</title>
+  <meta name="description" content="Barbearia Dom Felipe — cortes clássicos e modernos, barba na navalha e agendamento online.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" id="topo">
+    <div class="container header-inner">
+      <a href="#" class="logo" aria-label="Barbearia Dom Felipe">
+        <img src="imagens/log.png" alt="Logo Barbearia Dom Felipe" class="logo-img">
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="#servicos">Serviços</a>
+        <a href="#planos">Planos</a>
+        <a href="#barbeiros">Barbeiros</a>
+        <a href="#agendamento">Agendamento</a>
+        <a href="#contato">Contato</a>
+      </nav>
+
+      <a href="#agendamento" class="btn btn-primary nav-cta">Agendar horário</a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="eyebrow">Barbearia clássica desde sempre</p>
+      <h1>Tradição na navalha.<br>Estilo que <span class="text-accent">assina</span>.</h1>
+      <p class="hero-sub">Cortes precisos, barba impecável e um ambiente pensado para o seu ritual de cuidado. Agende com a equipe Dom Felipe.</p>
+      <div class="hero-actions">
+        <a href="#agendamento" class="btn btn-primary">Marcar horário</a>
+        <a href="#servicos" class="btn btn-outline">Ver serviços</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVIÇOS / PREÇOS ===================== -->
+  <section class="section" id="servicos">
+    <div class="container">
+      <p class="eyebrow center">O que fazemos</p>
+      <h2 class="section-title center">Serviços &amp; Preços</h2>
+      <p class="section-sub center">Toque em um serviço para já ir direto para o agendamento.</p>
+
+      <!-- Div que receberá a nova UI minimalista (Menu) -->
+      <div class="services-menu-list" id="servicesGrid"></div>
+      
+    </div>
+  </section>
+
+  <!-- ===================== PLANOS MENSAIS ===================== -->
+  <section class="section section-alt" id="planos">
+    <div class="container">
+      <p class="eyebrow center">Cuide-se sempre</p>
+      <h2 class="section-title center">Planos Mensais</h2>
+      <p class="section-sub center">Assine um plano e tenha benefícios exclusivos todos os meses.</p>
+
+      <div class="plans-grid">
+        <div class="plan-card">
+          <h3>Plano Prata</h3>
+          <p class="plan-price"><span class="plan-price-value">R$ 89,90</span><span class="plan-price-period">/mês</span></p>
+          <ul class="plan-benefits">
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> 1 corte por mês</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> 10% de desconto em produtos</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> Prioridade na fila de espera</li>
+          </ul>
+          <a class="btn btn-outline btn-block" href="https://wa.me/5585999729651?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20assinar%20o%20Plano%20Prata" target="_blank" rel="noopener noreferrer">Assinar via WhatsApp</a>
+        </div>
+
+        <div class="plan-card plan-card-featured">
+          <span class="badge">Mais popular</span>
+          <h3>Plano Ouro</h3>
+          <p class="plan-price"><span class="plan-price-value">R$ 149,90</span><span class="plan-price-period">/mês</span></p>
+          <ul class="plan-benefits">
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> 2 cortes por mês</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> Barba inclusa 1x por mês</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> 15% de desconto em produtos</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="https://wa.me/5585999729651?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20assinar%20o%20Plano%20Ouro" target="_blank" rel="noopener noreferrer">Assinar via WhatsApp</a>
+        </div>
+
+        <div class="plan-card">
+          <h3>Plano Prime</h3>
+          <p class="plan-price"><span class="plan-price-value">R$ 219,90</span><span class="plan-price-period">/mês</span></p>
+          <ul class="plan-benefits">
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> Cortes ilimitados</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> Barba inclusa toda semana</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i> Atendimento VIP com horário exclusivo</li>
+          </ul>
+          <a class="btn btn-outline btn-block" href="https://wa.me/5585999729651?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20assinar%20o%20Plano%20Prime" target="_blank" rel="noopener noreferrer">Assinar via WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NOSSOS BARBEIROS ===================== -->
+  <section class="section" id="barbeiros">
+    <div class="container">
+      <p class="eyebrow center">Conheça a equipe</p>
+      <h2 class="section-title center">Nossos Barbeiros</h2>
+      <p class="section-sub center">Escolha quem vai cuidar do seu visual.</p>
+      <div class="barbers-grid" id="barbersGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== AGENDAMENTO ===================== -->
+  <section class="section section-alt" id="agendamento">
+    <div class="container">
+      <p class="eyebrow center">Reserve seu horário</p>
+      <h2 class="section-title center">Agendamento</h2>
+
+      <form class="booking-form" id="bookingForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome" required minlength="2">
+            <small class="field-error" id="nomeErro" hidden>Digite ao menos 2 caracteres.</small>
+          </div>
+          <div class="form-group">
+            <label for="telefone">Telefone / WhatsApp</label>
+            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required inputmode="numeric" maxlength="15">
+            <small class="field-error" id="telefoneErro" hidden>Informe um WhatsApp válido com DDD.</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Escolha o barbeiro</label>
+          <div class="chip-group" id="barbeiroChips" role="radiogroup" aria-label="Escolha o barbeiro"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Serviços desejados</label>
+          <!-- Div que receberá o scroll horizontal -->
+          <div class="chip-group-scroll" id="servicoChips" role="group" aria-label="Serviços desejados"></div>
+          <small class="field-error" id="servicosErro" hidden>Selecione ao menos um serviço.</small>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="data">Data</label>
+            <input type="date" id="data" name="data" required>
+            <small class="field-hint">Terça a sábado, com até 14 dias de antecedência</small>
+          </div>
+          <div class="form-group">
+            <label>Horário</label>
+            <div class="chip-group" id="horaChips" role="radiogroup" aria-label="Escolha o horário">
+              <p class="chip-group-empty" id="horaChipsEmpty">Escolha o barbeiro e a data primeiro</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="observacoes">Observações (opcional)</label>
+          <textarea id="observacoes" name="observacoes" rows="3" placeholder="Alguma preferência ou observação?"></textarea>
+        </div>
+
+        <div class="price-summary">
+          <span>Preço total</span>
+          <strong id="priceTotalValue">R$ 0,00</strong>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Confirmar agendamento</button>
+        <p class="form-note" id="formNote" role="status"></p>
+      </form>
+
+      <div class="my-bookings-toggle-wrap">
+        <button type="button" class="my-bookings-toggle" id="myBookingsToggleBtn" aria-expanded="false" aria-controls="myBookingsPanel">
+          Já tem um horário marcado? <span>Clique aqui para consultar ou cancelar</span>
+          <i class="ph ph-caret-down" aria-hidden="true"></i>
+        </button>
+        <div class="my-bookings-panel" id="myBookingsPanel" hidden>
+          <p class="form-note" id="myBookingsNote" role="status"></p>
+          <div class="my-bookings-lista" id="myBookingsLista"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTATO + MAPA ===================== -->
+  <section class="section" id="contato">
+    <div class="container contact-grid">
+      <div class="contact-info">
+        <p class="eyebrow">Fale com a gente</p>
+        <h2 class="section-title">Contato</h2>
+
+        <ul class="contact-list">
+          <li>
+            <strong>Endereço</strong>
+            <span>
+            <a href="https://maps.app.goo.gl/PdByneG65Kjj38pc6" target="_blank" rel="noopener noreferrer">
+            Rua Eurico Medina, 838 - Henrique Jorge, Fortaleza - CE
+            </a>
+            </span>
+          </li>
+          <li>
+            <strong>Telefone / WhatsApp</strong>
+            <span><a href="https://wa.me/5585999729651">(85) 99972-9651</a></span>
+          </li>
+          <li>
+            <strong>Instagram</strong>
+            <span><a href="https://instagram.com/barbearia_domfelipe" target="_blank" rel="noopener noreferrer">@barbearia_domfelipe</a></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="map-wrapper">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.225046365314!2d-38.59000898985223!3d-3.761130296196938!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c74bed81a9be5d%3A0xc98a939295e16551!2sBarbearia%20Dom%20Felipe!5e0!3m2!1spt-BR!2sbr!4v1788116717358!5m2!1spt-BR!2sbr" 
+        width="100%" 
+        height="100%"
+        style="border:0; min-height: 320px;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="#" class="logo footer-logo" aria-label="Barbearia Dom Felipe">
+        <img src="imagens/log.png" alt="Logo Barbearia Dom Felipe" class="logo-img footer-logo-img">
+      </a>
+      <p>&copy; <span id="ano"></span> Barbearia Dom Felipe. Todos os direitos reservados.</p>
+      <a href="painel.html" class="footer-admin-link">Área da Equipe</a>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="barbeiros-storage.js"></script>
+  <script src="precificacao.js"></script>
+  <script src="agenda-storage.js"></script>
+  <script src="calendario.js"></script>
+  <script src="meus-agendamentos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
