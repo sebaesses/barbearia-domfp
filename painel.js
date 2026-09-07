@@ -798,10 +798,10 @@ function limparCanceladosAntigos() {
   }
 }
 
-window.cancelarAgendamento = function(idAgendamento) {
-    let agendamentos = JSON.parse(localStorage.getItem('agendamentos')) || [];
+window.cancelarAgendamento = function(id, motivo) {
+    let agendamentos = obterAgendamentos();
     
-    let agendamentosAtualizados = agendamentos.filter(ag => String(ag.id) !== String(idAgendamento));
+    let agendamentosAtualizados = agendamentos.filter((a) => String(a.id) !== String(id));
     
     localStorage.setItem('agendamentos', JSON.stringify(agendamentosAtualizados));
 };
