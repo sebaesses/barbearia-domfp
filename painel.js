@@ -543,7 +543,6 @@ if (barbeiroForm) {
       dados.id = novoId;
       adicionarBarbeiro(dados);
 
-      // Apenas avisa o Dono qual é o login, não precisa salvar em nenhum outro lugar!
       const emailGerado = `${novoId}@domfelipe.com`;
       alert(`Barbeiro ${nome} adicionado com sucesso!\n\nCredenciais de acesso:\nLogin: ${emailGerado}\nSenha: 123`);
     }
@@ -565,15 +564,13 @@ if (equipeLista) {
       const barbeiroId = btnRemover.dataset.removerBarbeiro;
       const hoje = hojeISO();
       
-      // 1. Busca agendamentos futuros e confirmados vinculados ao barbeiro demitido
       const agendamentosAfetados = obterAgendamentos().filter(
         (a) => a.barbeiroId === barbeiroId && a.status === 'confirmado' && a.data >= hoje
       );
 
-      // 2. Se houver agendamentos pendentes, aciona o protocolo de cancelamento
       if (agendamentosAfetados.length > 0) {
         if (!window.confirm(`ATENÇÃO: Este barbeiro tem ${agendamentosAfetados.length} agendamento(s) futuro(s). Deseja cancelar todos e gerar os links de WhatsApp para avisar os clientes?`)) {
-          return; // Aborta a exclusão se o Dono não quiser lidar com os agendamentos agora
+          return; 
         }
 
         agendamentosAfetados.forEach((agendamento) => {
@@ -587,12 +584,11 @@ if (equipeLista) {
         });
       }
 
-      // 3. Remove o barbeiro e atualiza a interface
       removerBarbeiro(barbeiroId);
       
       renderizarEquipeLista();
       montarFiltroBarbeiro();
-      renderizarLista(); // Atualiza a aba de agendamentos para refletir os cancelamentos
+      renderizarLista();
     }
     }); 
 }
