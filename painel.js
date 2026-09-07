@@ -797,3 +797,11 @@ function limparCanceladosAntigos() {
     console.error('Erro ao limpar agendamentos cancelados antigos:', erro);
   }
 }
+
+window.cancelarAgendamento = function(idAgendamento) {
+    let agendamentos = JSON.parse(localStorage.getItem('agendamentos')) || [];
+    
+    let agendamentosAtualizados = agendamentos.filter(ag => String(ag.id) !== String(idAgendamento));
+    
+    localStorage.setItem('agendamentos', JSON.stringify(agendamentosAtualizados));
+};
