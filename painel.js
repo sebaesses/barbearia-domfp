@@ -799,9 +799,14 @@ function limparCanceladosAntigos() {
 }
 
 window.cancelarAgendamento = function(id, motivo) {
-    let agendamentos = obterAgendamentos();
+    let agendamentos = JSON.parse(localStorage.getItem('domfelipe_agendamentos')) || [];
     
-    let agendamentosAtualizados = agendamentos.filter((a) => String(a.id) !== String(id));
+    let index = agendamentos.findIndex((a) => String(a.id) === String(id));
     
-    localStorage.setItem('agendamentos', JSON.stringify(agendamentosAtualizados));
+    if (index !== -1) {
+        agendamentos[index].status = 'cancelado';
+        agendamentos[index].motivoCancelamento = motivo || 'Cancelado pelo painel.';
+        
+        localStorage.setItem('domfelipe_agendamentos', JSON.stringify(agendamentos));
+    }
 };
