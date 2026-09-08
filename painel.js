@@ -206,58 +206,106 @@ function obterBarbeiroAlvoDoBloqueio() {
   return permissoesAtuais.barbeiroFixo || bloqueioBarbeiroSelect.value;
 }
 
-if (bloqueioBtn) {
-  bloqueioBtn.addEventListener('click', () => {
-    try {
-      bloqueioNote.classList.remove('form-note-error');
-      const dataSelecionada = bloqueioData.value;
-      const barbeiroId = obterBarbeiroAlvoDoBloqueio();
+// Grade de horários padrão da barbearia (ajuste conforme os horários reais do negócio)
+const HORARIOS_BARBEARIA = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
 
-      if (!dataSelecionada || !barbeiroId) {
-        bloqueioNote.textContent = 'Escolha a data e o barbeiro.';
-        bloqueioNote.classList.add('form-note-error');
-        return;
-      }
+const gradeHorariosBloqueio = document.getElementById('gradeHorariosBloqueio');
 
-      if (diaEstaBloqueado(barbeiroId, dataSelecionada)) {
-        bloqueioNote.textContent = 'Esse dia já está bloqueado para esse barbeiro.';
-        bloqueioNote.classList.add('form-note-error');
-        return;
-      }
+// Escuta as mudanças de data ou barbeiro para montar a grade na hora
+if (bloqueioData) bloqueioData.addEventListener('change', renderizarGradeBloqueios);
+if (bloqueioBarbeiroSelect) bloqueioBarbeiroSelect.addEventListener('change', renderizarGradeBloqueios);
 
-      const agendamentosAfetados = obterAgendamentos().filter(
-        (a) => a.barbeiroId === barbeiroId && a.data === dataSelecionada && a.status === 'confirmado'
-      );
+function renderizarGradeBloqueios() {
+  const dataSelecionada = bloqueioData.value;
+  const barbeiroId = obterBarbeiroAlvoDoBloqueio();
+  
+  if (!dataSelecionada || !barbeiroId) {
+    gradeHorariosBloqueio.innerHTML = '<p style="color: #666; font-size: 0.9rem;">Selecione a data e o barbeiro para ver os horários.</p>';
+    return;
+  }
 
-      if (agendamentosAfetados.length > 0) {
-        if (!window.confirm(`Remover e cancelar ${agendamentosAfetados.length} agendamentos?`)) return;
-      }
+  gradeHorariosBloqueio.innerHTML = ''; // Limpa a grade
 
-      agendamentosAfetados.forEach((agendamento) => {
-        cancelarAgendamento(agendamento.id, `Cancelado por Indisponibilidade. Ausência registrada por ${sessaoAtual?.nome || 'usuário do painel'}.`);
-        const [anoAg, mesAg, diaAg] = (agendamento.data || '').split('-');
-        const dataExibida = agendamento.dataFormatada || (diaAg ? `${diaAg}/${mesAg}/${anoAg}` : agendamento.data);
-        const mensagem = `Olá, ${agendamento.nome}! Infelizmente precisamos cancelar o seu agendamento do dia ${dataExibida} às ${agendamento.hora} por motivo de força maior.`;
-        window.open(`https://wa.me/${telefoneParaWhatsApp(agendamento.telefone)}?text=${encodeURIComponent(mensagem)}`, '_blank');
-      });
+  // Puxa agendamentos e bloqueios daquele dia
+  const todosAgendamentos = obterAgendamentos();
+  const agendamentosDoDia = todosAgendamentos.filter(a => a.data === dataSelecionada && a.barbeiroId === barbeiroId && a.status === 'confirmado');
+  const bloqueiosDoDia = obterDiasBloqueados().filter(b => b.data === dataSelecionada && b.barbeiroId === barbeiroId);
 
-      const bloqueios = obterDiasBloqueados();
-      bloqueios.push({
-        id: `bl_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
-        barbeiroId,
-        data: dataSelecionada,
-        motivo: `Ausência registrada por ${sessaoAtual.nome}.`,
-        criadoEm: new Date().toISOString()
-      });
+  HORARIOS_BARBEARIA.forEach(hora => {
+    const agendamento = agendamentosDoDia.find(a => a.hora === hora);
+    const bloqueio = bloqueiosDoDia.find(b => b.hora === hora); // Agora o bloqueio terá o atributo 'hora'
 
-      salvarDiasBloqueados(bloqueios);
-      bloqueioData.value = '';
-      renderizarBloqueios();
-      renderizarLista();
-    } catch (erro) {
-      console.error(erro);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = hora;
+    
+    // Estilos base da pílula
+    btn.style.padding = '8px 12px';
+    btn.style.borderRadius = '20px';
+    btn.style.border = '1px solid #ccc';
+    btn.style.cursor = 'pointer';
+    btn.style.fontWeight = 'bold';
+
+    if (agendamento) {
+      // Horário Agendado
+      btn.style.backgroundColor = '#ffebee';
+      btn.style.color = '#c62828';
+      btn.style.borderColor = '#c62828';
+      btn.title = `Agendado: ${agendamento.nome}`;
+      btn.onclick = () => tentarBloquearAgendado(agendamento);
+    } else if (bloqueio) {
+      // Horário Bloqueado
+      btn.style.backgroundColor = '#424242';
+      btn.style.color = '#fff';
+      btn.style.borderColor = '#424242';
+      btn.title = 'Desbloquear este horário';
+      btn.onclick = () => desbloquearHorario(bloqueio.id);
+    } else {
+      // Horário Livre
+      btn.style.backgroundColor = '#fff';
+      btn.style.color = '#333';
+      btn.title = 'Bloquear este horário';
+      btn.onclick = () => bloquearHorario(barbeiroId, dataSelecionada, hora);
     }
+
+    gradeHorariosBloqueio.appendChild(btn);
   });
+}
+
+function bloquearHorario(barbeiroId, data, hora) {
+  const bloqueios = obterDiasBloqueados();
+  bloqueios.push({
+    id: `bl_${Date.now()}`,
+    barbeiroId,
+    data,
+    hora, // Salvamos a hora específica
+    motivo: `Bloqueado manualmente por ${sessaoAtual?.nome || 'Admin'}.`,
+    criadoEm: new Date().toISOString()
+  });
+  salvarDiasBloqueados(bloqueios);
+  renderizarGradeBloqueios(); 
+}
+
+function desbloquearHorario(idBloqueio) {
+  let bloqueios = obterDiasBloqueados();
+  bloqueios = bloqueios.filter(b => b.id !== idBloqueio);
+  salvarDiasBloqueados(bloqueios);
+  renderizarGradeBloqueios(); 
+}
+
+function tentarBloquearAgendado(agendamento) {
+  if (!window.confirm(`O cliente ${agendamento.nome} está agendado às ${agendamento.hora}. Deseja CANCELAR o agendamento e BLOQUEAR o horário?`)) return;
+
+  cancelarAgendamento(agendamento.id, 'Cancelado por bloqueio de agenda.');
+  
+  bloquearHorario(agendamento.barbeiroId, agendamento.data, agendamento.hora);
+  
+  const [ano, mes, dia] = agendamento.data.split('-');
+  const mensagem = `Olá, ${agendamento.nome}! Infelizmente precisamos cancelar o seu agendamento do dia ${dia}/${mes}/${ano} às ${agendamento.hora} por um imprevisto na agenda do profissional. Por favor, acesse nosso site para reagendar!`;
+  window.open(`https://wa.me/${telefoneParaWhatsApp(agendamento.telefone)}?text=${encodeURIComponent(mensagem)}`, '_blank');
+  
+  renderizarGradeBloqueios();
+  renderizarLista();
 }
 
 function renderizarBloqueios() {

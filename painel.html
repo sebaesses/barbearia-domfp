@@ -112,21 +112,26 @@
         <div class="painel-lista" id="painelLista"></div>
         <p class="painel-empty" id="painelEmpty" hidden>Nenhum agendamento confirmado para esta data.</p>
 
-        <div class="painel-block-day" id="painelBlockDayWrap" hidden>
-          <h2 class="painel-block-day-title"><i class="ph ph-calendar-x" aria-hidden="true"></i> Bloquear um dia (ausência)</h2>
-          <p class="painel-block-day-desc">
-            Cancela e remove automaticamente os agendamentos confirmados do barbeiro nesse dia, e abre uma aba do WhatsApp para cada cliente afetado com um aviso pronto.
-          </p>
-          <div class="painel-block-day-form">
-            <div class="form-group">
-              <label for="bloqueioData">Data a bloquear</label>
-              <input type="date" id="bloqueioData">
-            </div>
+        <div id="painelBlockDayWrap" class="painel-section">
+          <h3>Bloqueio de Horários</h3>
+        <div class="form-group">
+          <label for="bloqueioData">Selecione a Data:</label>
+          <input type="date" id="bloqueioData">
+        </div>
+  
+        <div class="form-group" id="bloqueioBarbeiroWrap">
+          <label for="bloqueioBarbeiroSelect">Barbeiro:</label>
+          <select id="bloqueioBarbeiroSelect"></select>
+        </div>
+
+        <div id="gradeHorariosBloqueio" class="horarios-grid" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px;"></div>
+  
+          <p id="bloqueioNote" class="form-note"></p>
+        </div>
             <div class="form-group" id="bloqueioBarbeiroWrap" hidden>
               <label for="bloqueioBarbeiroSelect">Barbeiro</label>
               <select id="bloqueioBarbeiroSelect"></select>
             </div>
-            <button type="button" class="btn btn-danger" id="bloqueioBtn">
               <i class="ph ph-calendar-x" aria-hidden="true"></i> Bloquear dia
             </button>
           </div>
