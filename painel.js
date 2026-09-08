@@ -213,13 +213,24 @@ function montarBloqueioDia() {
   } else {
     bloqueioBarbeiroWrap.hidden = false;
     bloqueioBarbeiroSelect.innerHTML = '';
-    obterListaBarbeiros().forEach((barbeiro) => {
+    
+    const listaBarbeiros = obterListaBarbeiros();
+    listaBarbeiros.forEach((barbeiro) => {
       const opcao = document.createElement('option');
       opcao.value = barbeiro.id;
       opcao.textContent = barbeiro.nome;
       bloqueioBarbeiroSelect.appendChild(opcao);
     });
   }
+
+  montarChipsDeHorario();
+}
+
+if (bloqueioData) {
+  bloqueioData.addEventListener('change', montarChipsDeHorario);
+}
+if (bloqueioBarbeiroSelect) {
+  bloqueioBarbeiroSelect.addEventListener('change', montarChipsDeHorario);
 }
 
 function obterBarbeiroAlvoDoBloqueio() {
