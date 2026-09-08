@@ -155,7 +155,10 @@ function obterHorariosComStatus(barbeiroId, dataISO) {
 
   return horarios.map((horario) => ({
     hora: horario,
-    ocupado: Boolean(barbeiroId) && horarioOcupado(barbeiroId, dataISO, horario)
+    ocupado: Boolean(barbeiroId) && (
+      horarioOcupado(barbeiroId, dataISO, horario)
+      || horarioEstaBloqueado(barbeiroId, dataISO, horario)
+    )
   }));
 }
 

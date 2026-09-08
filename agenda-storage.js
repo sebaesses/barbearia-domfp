@@ -11,7 +11,6 @@
 
 const AGENDA_STORAGE_KEY = 'domfelipe_agendamentos';
 
-// Retorna todos os agendamentos salvos (array de objetos)
 function obterAgendamentos() {
   try {
     const dados = localStorage.getItem(AGENDA_STORAGE_KEY);
@@ -22,7 +21,6 @@ function obterAgendamentos() {
   }
 }
 
-// Sobrescreve a lista completa de agendamentos
 function salvarAgendamentos(lista) {
   try {
     localStorage.setItem(AGENDA_STORAGE_KEY, JSON.stringify(lista));
@@ -33,8 +31,6 @@ function salvarAgendamentos(lista) {
   }
 }
 
-// Adiciona um novo agendamento já confirmado (regra de negócio:
-// todo agendamento validado no site é confirmado automaticamente)
 function adicionarAgendamento(dadosAgendamento) {
   const lista = obterAgendamentos();
 
@@ -50,16 +46,12 @@ function adicionarAgendamento(dadosAgendamento) {
   return novoAgendamento;
 }
 
-// Remove um agendamento pelo id (usado pelo botão Cancelar do painel)
 function removerAgendamento(id) {
   const lista = obterAgendamentos().filter((item) => item.id !== id);
   salvarAgendamentos(lista);
   return lista;
 }
 
-// Verifica se já existe um agendamento CONFIRMADO para o mesmo
-// barbeiro, na mesma data e horário — usado para prevenir overbooking
-// (dois clientes marcando o mesmo horário com o mesmo barbeiro).
 function horarioOcupado(barbeiroId, data, hora) {
   return obterAgendamentos().some((agendamento) =>
     agendamento.barbeiroId === barbeiroId
@@ -69,9 +61,6 @@ function horarioOcupado(barbeiroId, data, hora) {
   );
 }
 
-// Atualiza o status de um agendamento (usado pelo painel para
-// cancelar um horário pontual, mantendo o registro no histórico
-// em vez de apagá-lo)
 function atualizarStatusAgendamento(id, novoStatus, motivo) {
   const lista = obterAgendamentos();
   const indice = lista.findIndex((agendamento) => agendamento.id === id);
@@ -110,21 +99,22 @@ function salvarDiasBloqueados(lista) {
   }
 }
 
-// Usado pelo site (index.html) para impedir a seleção da data no
-// calendário — SÓ bloqueia para o barbeiro afetado, os outros dois
-// continuam disponíveis normalmente nesse mesmo dia.
 function diaEstaBloqueado(barbeiroId, data) {
   return obterDiasBloqueados().some((bloqueio) =>
-    bloqueio.barbeiroId === barbeiroId && bloqueio.data === data
+    bloqueio.barbeiroId === barbeiroId
+    && bloqueio.data === data
+    && (!bloqueio.horarios || bloqueio.horarios.length === 0)
   );
 }
 
-// Bloqueia um dia inteiro para um barbeiro (ausência). Isso:
-//   1) cancela em cascata os agendamentos CONFIRMADOS daquele
-//      barbeiro naquela data (mantendo o registro no painel, com o
-//      motivo, para a recepção avisar o cliente pelo WhatsApp);
-//   2) registra o bloqueio, que o site consulta antes de liberar
-//      a data no formulário de agendamento.
+function horarioEstaBloqueado(barbeiroId, data, hora) {
+  return obterDiasBloqueados().some((bloqueio) => {
+    if (bloqueio.barbeiroId !== barbeiroId || bloqueio.data !== data) return false;
+    if (!bloqueio.horarios || bloqueio.horarios.length === 0) return true;
+    return bloqueio.horarios.includes(hora);
+  });
+}
+
 function bloquearDia(barbeiroId, data, motivo) {
   const motivoFinal = motivo || 'Dia bloqueado pelo profissional (ausência).';
 
@@ -163,7 +153,6 @@ function bloquearDia(barbeiroId, data, motivo) {
   return { bloqueio: novoBloqueio, agendamentosCancelados: algumCancelado };
 }
 
-// Remove um bloqueio (o barbeiro/dono decidiu voltar a atender no dia)
 function desbloquearDia(id) {
   const lista = obterDiasBloqueados().filter((bloqueio) => bloqueio.id !== id);
   salvarDiasBloqueados(lista);
