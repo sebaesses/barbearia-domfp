@@ -136,13 +136,18 @@ if (logoutBtn) {
   });
 }
 
-const HORARIOS_BARBEARIA = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
-
 function montarChipsDeHorario() {
   if (!bloqueioHorariosChips) return;
   
-  bloqueioHorariosChips.innerHTML = HORARIOS_BARBEARIA.map(hora => `
-    <label class="chip" style="margin-right: 5px; margin-bottom: 5px; display: inline-block;">
+  const horariosOficiais = gerarHorariosPadrao();
+  
+  bloqueioHorariosChips.style.display = 'flex';
+  bloqueioHorariosChips.style.flexWrap = 'wrap';
+  bloqueioHorariosChips.style.gap = '8px';
+  bloqueioHorariosChips.style.display = 'flex'; 
+
+  bloqueioHorariosChips.innerHTML = horariosOficiais.map(hora => `
+    <label class="chip">
       <input type="checkbox" name="horario_bloqueio" value="${hora}">
       <span>${hora}</span>
     </label>
