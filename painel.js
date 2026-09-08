@@ -226,13 +226,6 @@ function montarBloqueioDia() {
   montarChipsDeHorario();
 }
 
-if (bloqueioData) {
-  bloqueioData.addEventListener('change', montarChipsDeHorario);
-}
-if (bloqueioBarbeiroSelect) {
-  bloqueioBarbeiroSelect.addEventListener('change', montarChipsDeHorario);
-}
-
 function obterBarbeiroAlvoDoBloqueio() {
   return permissoesAtuais.barbeiroFixo || bloqueioBarbeiroSelect.value;
 }
