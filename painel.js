@@ -136,6 +136,9 @@ if (logoutBtn) {
   });
 }
 
+// =========================================================
+// CHIPS DE HORÁRIO (Bloqueio)
+// =========================================================
 function montarChipsDeHorario() {
   if (!bloqueioHorariosChips) return;
   
@@ -144,7 +147,6 @@ function montarChipsDeHorario() {
   bloqueioHorariosChips.style.display = 'flex';
   bloqueioHorariosChips.style.flexWrap = 'wrap';
   bloqueioHorariosChips.style.gap = '8px';
-  bloqueioHorariosChips.style.display = 'flex'; 
 
   bloqueioHorariosChips.innerHTML = horariosOficiais.map(hora => `
     <label class="chip">
@@ -167,7 +169,6 @@ function entrarNoPainel(sessao) {
   limparCanceladosAntigos();
   montarFiltroBarbeiro();
   montarBloqueioDia();
-  montarChipsDeHorario();
   montarTabs();
   renderizarLista();
   renderizarBloqueios();
@@ -194,7 +195,7 @@ function montarFiltroBarbeiro() {
 }
 
 // =========================================================
-// BLOQUEIO DE DIA
+// BLOQUEIO DE DIA E HORÁRIOS
 // =========================================================
 
 function montarBloqueioDia() {
@@ -243,23 +244,19 @@ if (bloqueioBtn) {
         return;
       }
 
-      // NOVO: Lê quais pílulas de horário foram marcadas
       const checkboxesMarcados = document.querySelectorAll('input[name="horario_bloqueio"]:checked');
       const horariosSelecionados = Array.from(checkboxesMarcados).map(cb => cb.value);
 
-      // NOVO: Descobre quais agendamentos serão afetados
       const agendamentosAfetados = obterAgendamentos().filter((a) => {
         if (a.barbeiroId !== barbeiroId || a.data !== dataSelecionada || a.status !== 'confirmado') return false;
-        // Se for dia inteiro, cancela todos. Se for parcial, cancela só as horas marcadas.
-        if (horariosSelecionados.length === 0) return true;
+        if (horariosSelecionados.length === 0) return true; 
         return horariosSelecionados.includes(a.hora);
       });
 
       if (agendamentosAfetados.length > 0) {
-        if (!window.confirm(`Remover e cancelar ${agendamentosAfetados.length} agendamento(s) nesse(s) horário(s)?`)) return;
+        if (!window.confirm(`Remover e cancelar ${agendamentosAfetados.length} agendamento(s) afetado(s)?`)) return;
       }
 
-      // Cancela no sistema e abre WhatsApp
       agendamentosAfetados.forEach((agendamento) => {
         cancelarAgendamento(agendamento.id, `Cancelado por Indisponibilidade. Ausência registrada por ${sessaoAtual?.nome || 'usuário do painel'}.`);
         const [anoAg, mesAg, diaAg] = (agendamento.data || '').split('-');
@@ -268,23 +265,20 @@ if (bloqueioBtn) {
         window.open(`https://wa.me/${telefoneParaWhatsApp(agendamento.telefone)}?text=${encodeURIComponent(mensagem)}`, '_blank');
       });
 
-      // Salva o bloqueio
       const bloqueios = obterDiasBloqueados();
       bloqueios.push({
         id: `bl_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
         barbeiroId,
         data: dataSelecionada,
-        horarios: horariosSelecionados, // Salva as pílulas aqui
+        horarios: horariosSelecionados, 
         motivo: `Ausência registrada por ${sessaoAtual.nome}.`,
         criadoEm: new Date().toISOString()
       });
 
       salvarDiasBloqueados(bloqueios);
       bloqueioData.value = '';
-      
-      // Limpa os botões depois de salvar
       document.querySelectorAll('input[name="horario_bloqueio"]').forEach(cb => cb.checked = false);
-
+      
       renderizarBloqueios();
       renderizarLista();
     } catch (erro) {
@@ -300,7 +294,7 @@ function renderizarBloqueios() {
     : todosBloqueios.filter((b) => b.barbeiroId === permissoesAtuais.barbeiroFixo);
 
   if (bloqueiosVisiveis.length === 0) {
-    bloqueiosList.innerHTML = '<p class="bloqueios-empty">Nenhum dia bloqueado no momento.</p>';
+    bloqueiosList.innerHTML = '<p class="bloqueios-empty">Nenhum dia ou horário bloqueado no momento.</p>';
     return;
   }
 
@@ -310,9 +304,8 @@ function renderizarBloqueios() {
     const barbeiro = obterBarbeiroPorId(bloqueio.barbeiroId);
     const [ano, mes, dia] = bloqueio.data.split('-');
     
-    // Mostra as pílulas bloqueadas ou avisa que é dia inteiro
     const horariosTexto = (bloqueio.horarios && bloqueio.horarios.length > 0) 
-        ? `<br><small style="color: #ff5252;">Horários: ${bloqueio.horarios.join(', ')}</small>` 
+        ? `<br><small style="color: #ff5252;">Horários bloqueados: ${bloqueio.horarios.join(', ')}</small>` 
         : '<br><small style="color: #ff5252;">Dia Inteiro Fechado</small>';
 
     return `
