@@ -386,15 +386,15 @@ if (grid) {
 
   const anoEl = document.getElementById('ano');
   if (anoEl) anoEl.textContent = new Date().getFullYear();
-});
 
-const logoLink = document.querySelector('.logo');
-if (logoLink) {
-  logoLink.addEventListener('click', (e) => {
-    e.preventDefault(); // Impede o pulo seco padrão
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth' // Força a rolagem suave
+  const logoLink = document.querySelector('.logo');
+  if (logoLink) {
+    logoLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
-  });
-}
+  }
+})
