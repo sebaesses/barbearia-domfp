@@ -112,33 +112,32 @@
         <div class="painel-lista" id="painelLista"></div>
         <p class="painel-empty" id="painelEmpty" hidden>Nenhum agendamento confirmado para esta data.</p>
 
-        <div class="painel-block-day" id="painelBlockDayWrap" hidden>
-          <h2 class="painel-block-day-title"><i class="ph ph-calendar-x" aria-hidden="true"></i> Bloquear um dia (ausência)</h2>
-          <p class="painel-block-day-desc">
-            Cancela e remove automaticamente os agendamentos confirmados do barbeiro nesse dia, e abre uma aba do WhatsApp para cada cliente afetado com um aviso pronto.
-          </p>
-          <div class="painel-block-day-form">
-            <div class="form-group">
-              <label for="bloqueioData">Data a bloquear</label>
-              <input type="date" id="bloqueioData">
-            </div>
-            <div class="form-group" id="bloqueioHorariosWrap" style="grid-column: 1 / -1; width: 100%; margin-top: 15px;">              <label for="bloqueioBarbeiroSelect">Barbeiro</label>
-              <select id="bloqueioBarbeiroSelect"></select>
-            </div>
+        <div id="painelBlockDayWrap" class="painel-section">
+  <h3>Bloquear um dia (ausência)</h3>
+  <p style="margin-bottom: 15px; color: #aaa;">Cancela automaticamente os agendamentos afetados e gera link de aviso.</p>
+  
+  <div class="form-row">
+    <div class="form-group">
+      <label for="bloqueioData">Selecione a Data:</label>
+      <input type="date" id="bloqueioData">
+    </div>
+    
+    <div class="form-group" id="bloqueioBarbeiroWrap">
+      <label for="bloqueioBarbeiroSelect">Barbeiro:</label>
+      <select id="bloqueioBarbeiroSelect"></select>
+    </div>
+  </div>
 
-            <div class="form-group" id="bloqueioHorariosWrap">
-              <label>Horários específicos (opcional)</label>
-              <small class="field-hint">Deixe tudo desmarcado para bloquear o dia inteiro, ou marque só os horários que quer bloquear.</small>
-            <div class="chip-group" id="bloqueioHorariosChips"></div>
-            </div>
-            <button type="button" class="btn btn-danger" id="bloqueioBtn">
-              <i class="ph ph-calendar-x" aria-hidden="true"></i> Bloquear dia
-            </button>
-          </div>
-          <p class="form-note" id="bloqueioNote" role="status"></p>
-          <div class="bloqueios-list" id="bloqueiosList"></div>
-        </div>
-      </div>
+  <!-- Nova área de horários forçada a ocupar a largura total da tela -->
+  <div class="form-group" id="bloqueioHorariosWrap" style="grid-column: 1 / -1; width: 100%; margin-top: 15px;">
+    <label>Horários específicos (opcional)</label>
+    <small class="field-hint">Deixe tudo desmarcado para bloquear o dia inteiro, ou marque só os horários que deseja fechar.</small>
+    <div class="chip-group" id="bloqueioHorariosChips"></div>
+  </div>
+  
+  <button type="button" class="btn btn-primary" id="bloqueioBtn" style="margin-top: 15px;">Confirmar Bloqueio</button>
+  <p id="bloqueioNote" class="form-note"></p>
+</div>
 
       <!-- ===================== ABA: GERENCIAR EQUIPE (só Dono) ===================== -->
       <div id="equipeTab" hidden>

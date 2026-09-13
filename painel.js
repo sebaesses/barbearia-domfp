@@ -243,39 +243,48 @@ if (bloqueioBtn) {
         return;
       }
 
-      if (diaEstaBloqueado(barbeiroId, dataSelecionada)) {
-        bloqueioNote.textContent = 'Esse dia já está bloqueado para esse barbeiro.';
-        bloqueioNote.classList.add('form-note-error');
-        return;
-      }
+      // NOVO: Lê quais pílulas de horário foram marcadas
+      const checkboxesMarcados = document.querySelectorAll('input[name="horario_bloqueio"]:checked');
+      const horariosSelecionados = Array.from(checkboxesMarcados).map(cb => cb.value);
 
-      const agendamentosAfetados = obterAgendamentos().filter(
-        (a) => a.barbeiroId === barbeiroId && a.data === dataSelecionada && a.status === 'confirmado'
-      );
+      // NOVO: Descobre quais agendamentos serão afetados
+      const agendamentosAfetados = obterAgendamentos().filter((a) => {
+        if (a.barbeiroId !== barbeiroId || a.data !== dataSelecionada || a.status !== 'confirmado') return false;
+        // Se for dia inteiro, cancela todos. Se for parcial, cancela só as horas marcadas.
+        if (horariosSelecionados.length === 0) return true;
+        return horariosSelecionados.includes(a.hora);
+      });
 
       if (agendamentosAfetados.length > 0) {
-        if (!window.confirm(`Remover e cancelar ${agendamentosAfetados.length} agendamentos?`)) return;
+        if (!window.confirm(`Remover e cancelar ${agendamentosAfetados.length} agendamento(s) nesse(s) horário(s)?`)) return;
       }
 
+      // Cancela no sistema e abre WhatsApp
       agendamentosAfetados.forEach((agendamento) => {
         cancelarAgendamento(agendamento.id, `Cancelado por Indisponibilidade. Ausência registrada por ${sessaoAtual?.nome || 'usuário do painel'}.`);
         const [anoAg, mesAg, diaAg] = (agendamento.data || '').split('-');
         const dataExibida = agendamento.dataFormatada || (diaAg ? `${diaAg}/${mesAg}/${anoAg}` : agendamento.data);
-        const mensagem = `Olá, ${agendamento.nome}! Infelizmente precisamos cancelar o seu agendamento do dia ${dataExibida} às ${agendamento.hora} por motivo de força maior.`;
+        const mensagem = `Olá, ${agendamento.nome}! Infelizmente precisamos cancelar o seu agendamento do dia ${dataExibida} às ${agendamento.hora} por um imprevisto na agenda. Por favor, acesse nosso site para reagendar!`;
         window.open(`https://wa.me/${telefoneParaWhatsApp(agendamento.telefone)}?text=${encodeURIComponent(mensagem)}`, '_blank');
       });
 
+      // Salva o bloqueio
       const bloqueios = obterDiasBloqueados();
       bloqueios.push({
         id: `bl_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
         barbeiroId,
         data: dataSelecionada,
+        horarios: horariosSelecionados, // Salva as pílulas aqui
         motivo: `Ausência registrada por ${sessaoAtual.nome}.`,
         criadoEm: new Date().toISOString()
       });
 
       salvarDiasBloqueados(bloqueios);
       bloqueioData.value = '';
+      
+      // Limpa os botões depois de salvar
+      document.querySelectorAll('input[name="horario_bloqueio"]').forEach(cb => cb.checked = false);
+
       renderizarBloqueios();
       renderizarLista();
     } catch (erro) {
@@ -300,11 +309,18 @@ function renderizarBloqueios() {
   bloqueiosList.innerHTML = ordenados.map((bloqueio) => {
     const barbeiro = obterBarbeiroPorId(bloqueio.barbeiroId);
     const [ano, mes, dia] = bloqueio.data.split('-');
+    
+    // Mostra as pílulas bloqueadas ou avisa que é dia inteiro
+    const horariosTexto = (bloqueio.horarios && bloqueio.horarios.length > 0) 
+        ? `<br><small style="color: #ff5252;">Horários: ${bloqueio.horarios.join(', ')}</small>` 
+        : '<br><small style="color: #ff5252;">Dia Inteiro Fechado</small>';
+
     return `
-      <div class="bloqueio-item">
+      <div class="bloqueio-item" style="align-items: flex-start;">
         <span>
           <i class="ph ph-calendar-x" aria-hidden="true"></i>
-          ${dia}/${mes}/${ano} — ${escapeHtml(barbeiro ? barbeiro.nome : bloqueio.barbeiroId)}
+          <strong>${dia}/${mes}/${ano}</strong> — ${escapeHtml(barbeiro ? barbeiro.nome : bloqueio.barbeiroId)}
+          ${horariosTexto}
         </span>
         <button type="button" class="btn btn-outline btn-sm" data-desbloquear="${bloqueio.id}">Desbloquear</button>
       </div>
